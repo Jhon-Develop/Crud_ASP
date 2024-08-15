@@ -1,0 +1,25 @@
+@page
+@model CompletedTasksModel
+@{
+    ViewData["Title"] = "Completed Tasks";
+}
+<h1 class="text-light">@ViewData["Title"]</h1>
+
+
+<form method="post" asp-page-handler="DeleteAll" class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-danger">Delete All</button>
+</form>
+
+    <div class="d-flex justify-content-center max-w-lg mt-5 overflow-auto">
+        <div style="width: 850px; height: 500px;">
+            @foreach (var item in Model.CompletedItems)
+            {
+                <h3 class="text-light fs-2">@item.Name</h3>
+                <p class="ms-5 text-light fs-4">@item.Description</p>
+                <form method="post" class="d-flex justify-content-end" asp-page-handler="Delete" asp-route-id="@item.Id">
+                    <button type="submit" class="btn btn-warning">Delete</button>
+                </form>
+                <hr class="text-light">
+            }
+        </div>
+    </div>

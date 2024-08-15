@@ -1,0 +1,54 @@
+@page "{id?}"
+@model UpdateModel
+@{
+    ViewData["Title"] = "Update Task";
+    var isSingleTask = Model.TaskToUpdate != null;
+    var reversedTasks = Model.Tasks.ToList(); // Invertir la lista
+    reversedTasks.Reverse();
+}
+
+<h1 class="text-light">@ViewData["Title"]</h1>
+
+
+@if (isSingleTask)
+{
+    <h3 class="text-light fs-2 mt-5">@Model.TaskToUpdate.Name</h3>
+    <p class="ms-5 text-light fs-4">@Model.TaskToUpdate.Description</p>
+
+
+    <div class="d-flex justify-content-center">
+        <form method="post">
+            <div class="row">
+                <div class="col-12">
+                    <label for="taskName" class="text-light fs-3">Name</label>
+                    <input type="text" id="taskName" name="Name" class="form-control" style="font-size: 1.2rem;"
+                        value="@Model.TaskToUpdate.Name" />
+                </div>
+                <div class="col-12 mt-5">
+                    <label for="taskDescription" class="text-light fs-3">Description</label>
+                    <textarea id="taskDescription" name="Description" class="form-control"
+                        style="height: 100px; font-size: 1.2rem;">@Model.TaskToUpdate.Description</textarea>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end gap-3 col-12 mt-4">
+                <button type="submit" class="btn btn-success">Complete Update</button>
+                <a asp-page="./Read" asp-route-id="@Model.TaskToUpdate.Id" class="btn btn-secondary">Cancel Update</a>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <h2 class="text-light fs-1 mt-5">All Tasks</h2>
+    <div class="d-flex justify-content-center max-w-lg mt-5 overflow-auto">
+        <div style="width: 850px; height: 500px;">
+            @for (int i = 0; i < Model.Tasks.Count; i++) { <h3 class="text-light fs-2">@(i + 1). @reversedTasks[i].Name</h3>
+                <p class="ms-5 text-light fs-4">@reversedTasks[i].Description</p>
+                <div class="d-flex justify-content-end gap-3">
+                    <a asp-page="./Update" asp-route-id="@Model.Tasks[i].Id" class="btn btn-primary">Edit</a>
+                </div>
+                <hr class="text-light">
+                }
+        </div>
+    </div>
+}

@@ -1,0 +1,29 @@
+@page
+@model ReadModel
+@{
+    ViewData["Title"] = "Read task";
+    var reversedItems = Model.Items.ToList(); // Invertir la lista
+    reversedItems.Reverse();
+}
+<h1 class="text-light">@ViewData["Title"]</h1>
+<p class="text-light">Here you can manage your tasks</p>
+
+
+<h2 class="text-light fs-1 mt-5">Tasks</h2>
+<div class="d-flex justify-content-center max-w-lg mt-5 overflow-auto">
+<div style="width: 850px; height: 500px;">
+
+@for (int i = 0; i < reversedItems.Count; i++)
+{
+    <h3 class="text-light fs-2">@(i + 1). @reversedItems[i].Name</h3>
+    <p class="ms-5 text-light fs-4">@reversedItems[i].Description</p>
+    <div class="d-flex justify-content-end gap-3">
+        <a asp-page="./Update" asp-route-id="@reversedItems[i].Id" class="btn btn-primary">Edit</a>
+        <form method="post" asp-page-handler="Complete" asp-route-id="@reversedItems[i].Id">
+            <button type="submit" class="btn btn-success">Complete</button>
+        </form>
+        <hr class="text-light">
+    </div>
+}
+</div>
+</div>
